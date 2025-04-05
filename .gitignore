@@ -1,0 +1,4 @@
+# Restricted directories
+.idea/
+.gradle/
+build

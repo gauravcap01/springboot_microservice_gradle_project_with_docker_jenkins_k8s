@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_IMAGE = "gauravcap01/user-service"
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git 'https://your-repo-url'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh './gradlew build -x test'
+            }
+        }
+        stage(' ') {
+            steps {
+                sh './gradlew test'
+            }
+        }
+        stage('Docker Build & Push') {
+            steps {
+                script {
+                    docker.build("${DOCKER_IMAGE}:${BUILD_NUMBER}").push()
+                }
+            }
+        }
+        stage('Ansible Deploy') {
+            steps {
+                sh 'ansible-playbook ansible/deploy-k8s.yml'
+            }
+        }
+    }
+}

@@ -1,0 +1,76 @@
+plugins {
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
+
+// Move this section UP before dependencies
+sourceSets {
+    integrationTest {
+        java.srcDir file('src/test/java')
+        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.rest-assured:rest-assured:5.4.0'
+}
+
+task integrationTest(type: Test) {
+    description = "Runs integration tests"
+    group = "verification"
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    mustRunAfter test
+    useJUnitPlatform()
+}
+
+def appProcess
+
+task startApp {
+    dependsOn bootJar
+    doLast {
+        println "Starting Spring Boot app..."
+        appProcess = new ProcessBuilder("java", "-jar", "$rootDir/build/libs/user-service-0.0.1-SNAPSHOT.jar")
+                .redirectOutput(new File("$buildDir/app.log"))
+                .redirectErrorStream(true)
+                .start()
+
+        sleep(5000) // Replace with health check later if needed
+    }
+}
+
+task stopApp {
+    doLast {
+        if (appProcess) {
+            println "Stopping Spring Boot app..."
+            appProcess.destroy()
+        }
+    }
+}
+
+integrationTest.dependsOn startApp
+integrationTest.finalizedBy stopApp
+
+tasks.withType(org.springframework.boot.gradle.tasks.bundling.BootJar).configureEach {
+    destinationDirectory.set(file("$rootDir/build/libs"))
+}
