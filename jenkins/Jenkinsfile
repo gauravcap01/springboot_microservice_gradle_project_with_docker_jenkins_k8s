@@ -1,5 +1,11 @@
 pipeline {
-    agent any
+    //agent any
+    agent {
+        kubernetes {
+          label 'jenkins-gradle'
+          defaultContainer 'gradle'
+        }
+    }
     environment {
         DOCKER_IMAGE = "gauravcap01/user-service"
     }
