@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://your-repo-url'
+                git 'https://github.com/gauravcap01/springboot_microservice_gradle_project_with_docker_jenkins_k8s.git'
             }
         }
         stage('Build') {
