@@ -5,13 +5,13 @@
   tasks:
     - name: Pull Docker image
       docker_image:
-        name: your-dockerhub-username/app
+        name: gauravcap01/app
         source: pull
 
     - name: Run container
       docker_container:
-        name: springboot-ms
-        image: your-dockerhub-username/app
+        name: user-service-ms
+        image: gauravcap01/app
         ports:
           - "8080:8080"
         state: started

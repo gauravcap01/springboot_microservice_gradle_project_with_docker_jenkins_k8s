@@ -6,17 +6,17 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://your-repo-url'
+                git 'https://github.com/gauravcap01/springboot_microservice_gradle_project_with_docker_jenkins_k8s'
             }
         }
         stage('Build') {
             steps {
-                sh './gradlew build -x test'
+                sh 'gradle build -x test'
             }
         }
         stage(' ') {
             steps {
-                sh './gradlew test'
+                sh 'gradle test'
             }
         }
         stage('Docker Build & Push') {
@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Ansible Deploy') {
             steps {
-                sh 'ansible-playbook ansible/deploy-k8s.yml'
+                sh 'ansible-playbook ansible/deploy.yml'
             }
         }
     }
