@@ -1,9 +1,8 @@
 pipeline {
-    //agent any
     agent {
-        kubernetes {
-          label 'jenkins-gradle'
-          defaultContainer 'gradle'
+        docker {
+            image 'gradle:8.6-jdk17' // You can update to the Gradle + JDK version you need
+            args '-v $HOME/.gradle:/home/gradle/.gradle' // Optional: Caches Gradle for speed
         }
     }
     environment {
@@ -20,7 +19,7 @@ pipeline {
                 sh 'gradle build -x test'
             }
         }
-        stage(' ') {
+        stage('Test') {
             steps {
                 sh 'gradle test'
             }
