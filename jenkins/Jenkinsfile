@@ -1,13 +1,5 @@
 pipeline {
-//    agent any
-//     tools {
-//             gradle 'gradle-8.6'
-//     }
-    agent {
-            docker {
-                image 'gradle:8.6-jdk17'
-           }
-    }
+    agent any
     environment {
         DOCKER_IMAGE = "gauravcap01/user-service"
     }
