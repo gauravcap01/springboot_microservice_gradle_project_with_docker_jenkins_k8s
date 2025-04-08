@@ -17,11 +17,7 @@ class UserApiTest {
 
     @Test
     void testGetUserById() {
-        given()
-                .auth()
-                .preemptive()
-                .basic("admin", "admin") // Use your actual credentials
-                .when()
+        when()
             .get("/users/1")
         .then()
             .statusCode(200)
