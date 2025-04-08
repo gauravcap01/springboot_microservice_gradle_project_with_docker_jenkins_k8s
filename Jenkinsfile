@@ -18,7 +18,7 @@ pipeline {
         stage(' ') {
             steps {
                 sh 'chmod +x gradlew'
-                sh './gradlew integrationtest -Dspring.profiles.active=local'
+                sh './gradlew integrationtest'
             }
         }
         stage('Docker Build & Push') {
