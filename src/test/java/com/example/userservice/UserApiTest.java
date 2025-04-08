@@ -12,7 +12,7 @@ class UserApiTest {
     @BeforeAll
     static void setup() {
         RestAssured.baseURI = "http://localhost";
-        RestAssured.port = 8080;
+        RestAssured.port = 8090;
     }
 
     @Test
