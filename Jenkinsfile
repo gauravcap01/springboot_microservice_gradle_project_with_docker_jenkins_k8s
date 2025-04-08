@@ -11,12 +11,12 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'gradle build -x test'
+                sh './gradlew build -x test'
             }
         }
         stage(' ') {
             steps {
-                sh './gradlew test'
+                sh './gradlew integrationtest'
             }
         }
         stage('Docker Build & Push') {
