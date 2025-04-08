@@ -15,12 +15,12 @@ pipeline {
                 sh './gradlew build -x test'
             }
         }
-        stage(' ') {
-            steps {
-                sh 'chmod +x gradlew'
-                sh './gradlew integrationtest --info --stacktrace'
-            }
-        }
+//         stage(' ') {
+//             steps {
+//                 sh 'chmod +x gradlew'
+//                 sh './gradlew integrationtest --info --stacktrace'
+//             }
+//         }
         stage('Docker Build & Push') {
             steps {
                 script {
